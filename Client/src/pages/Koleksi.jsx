@@ -22,7 +22,7 @@ function Koleksi () {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-[#F5E6D3] p-6">
+      <div className="min-h-screen bg-[#F5E6D3] p-6 px-16 py-32">
         <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Koleksi Buku
         </h1>
@@ -65,17 +65,8 @@ function Koleksi () {
           </div>
 
           {/* Kolom Buku */}
-          <div className="flex-1 p-4">
-            {/* <div className="mb-4 flex justify-between items-center">
-              <input
-                type="text"
-                placeholder="Cari buku"
-                className="p-2 rounded-md border border-gray-300"
-              />
-              <button className="bg-red-600 text-white p-2 rounded-md">
-                Cari
-              </button>
-            </div> */}
+          <div className="flex-1 p-4 ">
+
             <SearchBar />
 
             <div className="grid grid-cols-3 gap-4">

@@ -60,3 +60,9 @@ class ReservasiViewSet(viewsets.ModelViewSet):
 class BukuViewSet(viewsets.ModelViewSet):
     queryset = Buku.objects.all()
     serializer_class = BukuSerializer
+
+class BukuListView(APIView):
+    def get(self, request):
+        buku = Buku.objects.all()
+        serializer = BukuSerializer(buku, many=True)
+        return Response(serializer.data)

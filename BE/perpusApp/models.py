@@ -41,6 +41,7 @@ class Buku(models.Model):
     jumlah_buku = models.IntegerField()
     status_buku = models.CharField(max_length=30, choices=status_buku) 
     nama_kategori = models.CharField(max_length=50) #choices
+    image_url = models.URLField(max_length=500, blank=True, null=True)
 
     def __str__(self):
         return self.judul_buku
