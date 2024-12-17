@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/navbar';
 import SearchBar from '@/components/ui/SearchBar';
@@ -6,15 +6,27 @@ import Footer from '@/components/Footer';
 import BookCard from '@/components/ui/book-card';
 
 function home(){
+  const [username, setUsername] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = localStorage.getItem("username");
+    setUsername(user); // Set username di state
+  }, []);
+
   return(
     <div className="min-h-[calc(100vh-64px)] bg-[#F5E6D3] pt-4">
       <Navbar />
       
-      <main className="max-w-7xl mx-auto px-4 py-8 pt-24">
-        <section className="mb-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            Buku jendela ilmu
+      <main className="max-w-7xl mx-auto px-12 py-8 pt-24">
+        <section className="mb-16 gap-10">
+          {username &&( 
+            <h1 className="text-4xl font-bold text-gray-900 mb-2 text-underline">
+              Selamat datang {username} !
+            </h1>
+          )}
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Buku jendela ilmu.
           </h1>
           <p className="text-gray-600 mb-8 max-w-2xl">
             Perpustakaan Digital: Membuka Jendela Dunia, Satu Halaman Sekaligus.

@@ -7,7 +7,7 @@ function register() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [formData, setFormData] = useState({
-    nama: "",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -46,15 +46,15 @@ function register() {
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="nama" className="block text-sm font-medium text-gray-700 mb-1">
-              Nama Pengguna
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+              Username
             </label>
             <input
               type="text"
-              id="nama"
-              name="nama"
+              id="username"
+              name="username"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#B22222]"
-              value={formData.nama}
+              value={formData.username}
               onChange={handleChange}
               required
             />

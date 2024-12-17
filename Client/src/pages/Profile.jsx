@@ -19,7 +19,7 @@ function Profile() {
   };
 
   const handleUpdate = () => {
-    console.log('Update');
+    console.log('Updated');
     // Add your update logic here
   };
 
@@ -71,7 +71,7 @@ function Profile() {
                   <div className="flex-1">
                     <input
                       type="text"
-                      value={username}
+                      value="-"
                       readOnly
                       className="w-full p-2 bg-white rounded border border-gray-300"
                     />

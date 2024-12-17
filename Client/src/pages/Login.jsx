@@ -4,7 +4,7 @@ import axios from 'axios';
 import Navbar from '@/components/navbar';
 
 function login({ setIsAuthenticated }) {
-  const [nama, setUsername] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ function login({ setIsAuthenticated }) {
     try {
       // Request ke server
       const Response = await axios.post("http://localhost:8000/api/login/", { //axios.post untuk mengirim data ke endpoint API  
-        nama,
+        username,
         password,
       })
       localStorage.setItem("token", Response.data.token); // Simpan Token
@@ -57,7 +57,7 @@ function login({ setIsAuthenticated }) {
               type="text"
               id="nama"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#B22222]"
-              value={nama}
+              value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
             />

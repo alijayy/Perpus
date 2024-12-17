@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import viewsets, status
 from rest_framework.authtoken.models import Token
-
+from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from .models import Buku, Peminjaman, Pengembalian, Member, Denda, Reservasi
@@ -16,12 +16,11 @@ class RegisterView(APIView):
     def post(self, request):
         print("POST request recieved") 
         username = request.data.get('username')
-        nama = request.data.get('nama')
         email = request.data.get('email')
         password = request.data.get('password')
 
-        user = User.objects.create_user(username=nama, email=email, password=password)
-        member = Member.objects.create(user=user, email=email, nama=nama) #kurang create user
+        user = User.objects.create_user(username=username, email=email, password=password)
+        member = Member.objects.create(user=user, username=username, email=email) #kurang create user
         return Response({'success': 'Pendaftaran sukses'}, status=status.HTTP_201_CREATED)
 
     def get(self, request):
@@ -31,7 +30,7 @@ class RegisterView(APIView):
 
 class LoginView(APIView):
     def post(self, request):
-        username = request.data.get('nama')# ganti username
+        username = request.data.get('username')# ganti username
         password = request.data.get('password')
         print(f"username: {username}, password: {password}")
         user = authenticate(request, username=username, password=password)

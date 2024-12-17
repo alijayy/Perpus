@@ -14,6 +14,7 @@ class Member(models.Model):
         ('P', 'Perempuan'),
     ]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    username = models.CharField(max_length=100)
     nama = models.CharField(max_length=100)
     gender = models.CharField(max_length=20, choices=gender, null=True)
     email = models.EmailField()
