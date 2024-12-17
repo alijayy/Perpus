@@ -2,13 +2,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react'
 
 function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isLayananOpen, setIsLayananOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isLayananOpen, setIsLayananOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); 
   const dropdownRef = useRef(null)
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Memeriksa apakah token ada di localStorage
+    const token = localStorage.getItem('token')
+    setIsAuthenticated(!!token) // true jika ada token
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0)
     }
@@ -16,7 +22,7 @@ function Navbar() {
     
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsLayananOpen(false)
+        setIsLayananOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -25,12 +31,24 @@ function Navbar() {
       window.removeEventListener('scroll', handleScroll)
       document.removeEventListener('mousedown', handleClickOutside)
     }
-
   }, [])
 
+  const handleLogout = () => {
+    localStorage.removeItem('token') // Hapus token
+    setIsAuthenticated(false);
+    setIsDropdownOpen(false);
+    navigate('/login');
+  }
+
+  const handleProfileClick = () => {
+    if (isAuthenticated) {
+      navigate('/profile'); // Jika login, menuju ke halaman Profile
+    } else {
+      setIsDropdownOpen(!isDropdownOpen); // Jika belum login, buka dropdown
+    }
+  };
 
   return (
-    
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
       isScrolled ? 'bg-[#B22222]' : 'bg-white'} shadow-sm`}>
           <div className="max-w-7xl mx-auto px-4">
@@ -81,11 +99,29 @@ function Navbar() {
                 <Link to="/kontak" className={`text-gray-700 hover:text-[#B22222] transition-colors duration-300 ${isScrolled ? 'text-white hover:text-gray-200' : 'text-gray-700'}`}>
                   Kontak
                 </Link>
-                <button onClick={() => navigate('/login')} className={`text-gray-700 hover:text-[#B22222] transition-colors duration-300 ${isScrolled ? 'text-white hover:text-gray-200' : 'text-gray-700'}`}>
+                {/* onClick={() => setIsDropdownOpen(!isDropdownOpen)} */}
+                <button onClick={handleProfileClick} className={`text-gray-700 hover:text-[#B22222] transition-colors duration-300 ${isScrolled ? 'text-white hover:text-gray-200' : 'text-gray-700'}`}>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </button>
+                {isDropdownOpen && (
+                <div className="absolute right-0 mt-32 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                  <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                    {isAuthenticated ? (
+                      <>
+                        <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</Link>
+                        <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+                      </>
+                    ) : (
+                      <>
+                        <Link to="/login" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login</Link>
+                        <Link to="/register" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign Up</Link>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
               </div>
     
               {/* Mobile menu button */}
@@ -105,7 +141,7 @@ function Navbar() {
             {isOpen && (
               <div className="md:hidden pb-4">
                 <div className="flex flex-col space-y-2">
-                  <Link href="/" className={`text-gray-700 hover:text-[#B22222] px-2 py-1 rounded-md transition-colors duration-300 ${isScrolled ? 'text-white hover:text-gray-200' : 'text-gray-700'}`}>
+                  <Link to="/" className={`text-gray-700 hover:text-[#B22222] px-2 py-1 rounded-md transition-colors duration-300 ${isScrolled ? 'text-white hover:text-gray-200' : 'text-gray-700'}`}>
                     Home
                   </Link>
                   <button
@@ -129,10 +165,10 @@ function Navbar() {
                       </Link>
                     </div>
                   )}
-                  <Link href="/koleksi" className={`text-gray-700 hover:text-[#B22222] px-2 py-1 rounded-md transition-colors duration-300 ${isScrolled ? 'text-white hover:text-gray-200' : 'text-gray-700'}`}>
+                  <Link to="/koleksi" className={`text-gray-700 hover:text-[#B22222] px-2 py-1 rounded-md transition-colors duration-300 ${isScrolled ? 'text-white hover:text-gray-200' : 'text-gray-700'}`}>
                     Koleksi
-                  </Link>
-                  <Link href="/kontak" className={`text-gray-700 hover:text-[#B22222] px-2 py-1 rounded-md transition-colors duration-300 ${isScrolled ? 'text-white hover:text-gray-200' : 'text-gray-700'}`}>
+                  </Link> 
+                  <Link to="/kontak" className={`text-gray-700 hover:text-[#B22222] px-2 py-1 rounded-md transition-colors duration-300 ${isScrolled ? 'text-white hover:text-gray-200' : 'text-gray-700'}`}>
                     Kontak
                   </Link>
                 </div>

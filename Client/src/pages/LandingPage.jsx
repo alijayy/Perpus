@@ -5,7 +5,6 @@ import SearchBar from '@/components/ui/SearchBar';
 import Footer from '@/components/Footer';
 import BookCard from '@/components/ui/book-card';
 
-
 function home(){
   const navigate = useNavigate();
   return(

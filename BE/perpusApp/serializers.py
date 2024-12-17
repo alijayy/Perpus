@@ -1,48 +1,32 @@
 from rest_framework import serializers
-from .models import buku, peminjaman, pengembalian, member, denda, reservasi
+from .models import Buku, Peminjaman, Pengembalian, Member, Denda, Reservasi
 
 class BukuSerializer(serializers.ModelSerializer):
     class Meta:
-        model = buku
+        model = Buku
         fields = '__all__'
 
 class PeminjamanSerializer(serializers.ModelSerializer):
     class Meta:
-        model = peminjaman
+        model = Peminjaman
         fields = '__all__'
 
 class PengembalianSerializer(serializers.ModelSerializer):
     class Meta:
-        model = pengembalian
+        model = Pengembalian
         fields = '__all__'
 
-
-class memberSerializer(serializers.ModelSerializer):
-    confirm_password = serializers.CharField(write_only=True)
-
+class MemberSerializer(serializers.ModelSerializer):
     class Meta:
-        model = member
+        model = Member
         fields = '__all__'
 
-    def validate(self, data):
-        if data['password'] != data['confirm_password']:
-            raise serializers.ValidationError({"password": "Password tidak sama"})
-        return data
-
-    def create(self, validated_data):
-        validated_data.pop('confirm_password')
-        member = member.objects.create(**validated_data)
-        member.set_password(validated_data['password'])
-        member.save()
-        return member
-
-
-class dendaSerializer(serializers.ModelSerializer):
+class DendaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = denda
+        model = Denda
         fields = '__all__'
 
-class reservasiSerializer(serializers.ModelSerializer):
+class ReservasiSerializer(serializers.ModelSerializer):
     class Meta:
-        model = reservasi
+        model = Reservasi
         fields = '__all__'

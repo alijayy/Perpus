@@ -1,44 +1,63 @@
-from django.shortcuts import render
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import viewsets
-from .models import buku, peminjaman, pengembalian, member, denda, reservasi
-from .serializers import BukuSerializer, PeminjamanSerializer, PengembalianSerializer, memberSerializer, dendaSerializer, reservasiSerializer
+from rest_framework import viewsets, status
+from rest_framework.authtoken.models import Token
+
+from rest_framework.views import APIView
+from django.contrib.auth import authenticate
+from .models import Buku, Peminjaman, Pengembalian, Member, Denda, Reservasi
+from .serializers import BukuSerializer, PeminjamanSerializer, PengembalianSerializer, MemberSerializer, DendaSerializer, ReservasiSerializer
 
 # Create your views here.
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = member.objects.all()
-    serializer_class = memberSerializer
+    queryset = Member.objects.all()
+    serializer_class = MemberSerializer
 
-class UserListView(APIView):
-    def get(self, request):
-        user = member.objects.all()
-        serializer = memberSerializer(user, many=True)
-        return Response(serializer.data)
-    
+class RegisterView(APIView):
     def post(self, request):
-        serializer = memberSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"message": "Akun berhasil dibuat!"}, serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+        print("POST request recieved") 
+        username = request.data.get('username')
+        nama = request.data.get('nama')
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        user = User.objects.create_user(username=nama, email=email, password=password)
+        member = Member.objects.create(user=user, email=email, nama=nama) #kurang create user
+        return Response({'success': 'Pendaftaran sukses'}, status=status.HTTP_201_CREATED)
+
+    def get(self, request):
+        user = Member.objects.all()
+        serializer = MemberSerializer(user, many=True)
+        return Response(serializer.data)
+
+class LoginView(APIView):
+    def post(self, request):
+        username = request.data.get('nama')# ganti username
+        password = request.data.get('password')
+        print(f"username: {username}, password: {password}")
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({   'token': token.key,
+                                'nama': user.username}, status=status.HTTP_200_OK)
+        return Response({'error': 'Invalid username atau password '}, status=status.HTTP_401_UNAUTHORIZED) 
 
 class PengembalianViewSet(viewsets.ModelViewSet):
-    queryset = pengembalian.objects.all()
+    queryset = Pengembalian.objects.all()
     serializer_class = PengembalianSerializer
 
 class PeminjamanViewSet(viewsets.ModelViewSet):
-    queryset = peminjaman.objects.all()
+    queryset = Peminjaman.objects.all()
     serializer_class = PeminjamanSerializer
 
 class DendaViewSet(viewsets.ModelViewSet):
-    queryset = denda.objects.all()
-    serializer_class = dendaSerializer
+    queryset = Denda.objects.all()
+    serializer_class = DendaSerializer
 
 class ReservasiViewSet(viewsets.ModelViewSet):
-    queryset = reservasi.objects.all()
-    serializer_class = reservasiSerializer
+    queryset = Reservasi.objects.all()
+    serializer_class = ReservasiSerializer
 
 class BukuViewSet(viewsets.ModelViewSet):
-    queryset = buku.objects.all()
+    queryset = Buku.objects.all()
     serializer_class = BukuSerializer

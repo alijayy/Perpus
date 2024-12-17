@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Navbar from '@/components/navbar';
 
 function login({ setIsAuthenticated }) {
-  const [nama, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [rememberMe, setRememberMe] = useState(false)
+  const [nama, setUsername] = useState(''); // Nama pengguna
+  const [password, setPassword] = useState(''); // Password
+  const [rememberMe, setRememberMe] = useState(false); // Checkbox "ingat saya"
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Ambil token dari localStorage jika sudah login sebelumnya
     const token = localStorage.getItem('token');
     if (token) {
       axios.interceptors.request.use((config) => {
@@ -22,20 +22,22 @@ function login({ setIsAuthenticated }) {
   }, []);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       // Request ke server
-      const Response = await axios.post("http://localhost:8000/api/login/", { //axios.post untuk mengirim data ke endpoint API  
+      const Response = await axios.post("http://localhost:8000/api/login/", { // endpoint API
         nama,
         password,
-      })
-      localStorage.setItem("token", Response.data.token); // Simpan Token
-      localStorage.setItem("username", Response.data.nama); // Simpan Nama Pengguna
+      });
 
-      setIsAuthenticated(true);
+      // Simpan Token dan Username di localStorage
+      localStorage.setItem("token", Response.data.token); // Simpan token
+      localStorage.setItem("username", Response.data.nama); // Simpan nama pengguna
+
+      setIsAuthenticated(true); // Set state isAuthenticated
       alert("Login Berhasil");
 
-      navigate('/'); // Redirect ke Landing Page
+      navigate('/'); // Redirect ke halaman utama
     } catch (error) {
       console.error("Login Gagal:", error);
       alert("Login gagal. Coba lagi");
@@ -44,7 +46,6 @@ function login({ setIsAuthenticated }) {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F5E6D3]">
-      <Navbar />
       <div className="bg-white p-8 rounded-lg shadow-md w-80">
         <h2 className="text-2xl font-bold text-[#B22222] mb-6 text-center">Masuk</h2>
 
@@ -95,8 +96,10 @@ function login({ setIsAuthenticated }) {
             </a>
           </div>
 
-          {/* onClick={() => navigate('/')} */}
-          <button type="submit" className="w-full bg-[#B22222] text-white py-2 px-4 rounded-md hover:bg-[#8B0000] focus:outline-none focus:ring-2 focus:ring-[#B22222] focus:ring-opacity-50">
+          <button
+            type="submit"
+            className="w-full bg-[#B22222] text-white py-2 px-4 rounded-md hover:bg-[#8B0000] focus:outline-none focus:ring-2 focus:ring-[#B22222] focus:ring-opacity-50"
+          >
             Masuk
           </button>
         </form>
@@ -108,7 +111,7 @@ function login({ setIsAuthenticated }) {
         </p>
       </div>
     </div>
-  )
+  );
 }
 
 export default login;

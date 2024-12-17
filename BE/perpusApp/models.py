@@ -1,20 +1,20 @@
 from django.db import models # type: ignore
+from django.contrib.auth.models import User
 
 # Create your models here.
-class member(models.Model):
+class Member(models.Model):
     jenis_anggota = [
         ('M', 'Mahasiswa'),
         ('D', 'Dosen'),
         ('U', 'Umum'),
     ]
-
+    
     gender = [
         ('L', 'Laki-laki'),
         ('P', 'Perempuan'),
     ]
-
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     nama = models.CharField(max_length=100)
-    password = models.CharField(max_length=50)
     gender = models.CharField(max_length=20, choices=gender, null=True)
     email = models.EmailField()
     jenis_anggota = models.CharField(max_length=30, choices=jenis_anggota, default='U')
@@ -23,9 +23,9 @@ class member(models.Model):
         return self.nama
     
     class Meta:
-        db_table = 'member'
+        db_table = 'Member'
 
-class buku(models.Model):
+class Buku(models.Model):
     status_buku = [
         ('T', 'Tersedia'),
         ('D', 'Dipinjam'),
@@ -45,16 +45,16 @@ class buku(models.Model):
         return self.judul_buku
     
     class Meta:
-        db_table = 'buku'
+        db_table = 'Buku'
 
-class peminjaman(models.Model):
+class Peminjaman(models.Model):
     status_peminjaman = [
         ('P', 'Dipinjam'),
         ('K', 'DiKembalikam'),
     ]
 
-    id_member = models.ForeignKey(member, on_delete=models.CASCADE, related_name='id_member')
-    id_buku = models.ForeignKey(buku, on_delete=models.CASCADE, related_name='id_buku')
+    id_member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='id_member')
+    id_buku = models.ForeignKey(Buku, on_delete=models.CASCADE, related_name='id_buku')
     tgl_peminjaman = models.DateField()
     batas_peminjaman = models.DateTimeField()
     status_peminjaman = models.CharField(max_length=30, choices=status_peminjaman) 
@@ -63,17 +63,17 @@ class peminjaman(models.Model):
         return str(self.id_member)
 
     class Meta:
-        db_table = 'peminjaman'
+        db_table = 'Peminjaman'
 
-class reservasi(models.Model):
+class Reservasi(models.Model):
     status_reservasi = [
         ('A', 'Aktif'),
         ('C', 'Dibatalkan'),
         ('S', 'Selesai'),
     ]
 
-    id_member = models.ForeignKey(member, on_delete=models.CASCADE, related_name='id_member_reservasi')
-    id_buku = models.ForeignKey(buku, on_delete=models.CASCADE, related_name='id_buku_reservasi')
+    id_member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='id_member_reservasi')
+    id_buku = models.ForeignKey(Buku, on_delete=models.CASCADE, related_name='id_buku_reservasi')
     tgl_reservasi = models.DateField()
     tgl_pengembalian = models.DateField()
     status_reservasi = models.CharField(max_length=30, choices=status_reservasi) 
@@ -82,15 +82,15 @@ class reservasi(models.Model):
         return str(self.id_member)
 
     class Meta:
-        db_table = 'reservasi'
+        db_table = 'Reservasi'
 
-class pengembalian(models.Model):
+class Pengembalian(models.Model):
     status_pengembalian = [
         ('D', 'Dikembalikan'),
         ('T', 'Terlambat'),
     ]
 
-    id_peminjaman = models.ForeignKey(peminjaman, on_delete=models.CASCADE, related_name='id_peminjaman')
+    id_peminjaman = models.ForeignKey(Peminjaman, on_delete=models.CASCADE, related_name='id_peminjaman')
     tgl_pengembalian = models.DateField()
     status_pengembalian = models.CharField(max_length=30, choices=status_pengembalian)
 
@@ -98,16 +98,16 @@ class pengembalian(models.Model):
         return str(self.id_peminjaman)
 
     class Meta:
-        db_table = 'pengembalian'
+        db_table = 'Pengembalian'
 
-class denda(models.Model):
+class Denda(models.Model):
     status_denda = [
         ('L', 'Lunas'),
         ('B', 'Belum Lunas'),
     ]
 
-    id_peminjaman = models.ForeignKey(peminjaman, on_delete=models.CASCADE, related_name='id_peminjaman_denda')
-    id_pengembalian = models.ForeignKey(pengembalian, on_delete=models.CASCADE, related_name='id_pengembalian_denda')
+    id_peminjaman = models.ForeignKey(Peminjaman, on_delete=models.CASCADE, related_name='id_peminjaman_denda')
+    id_pengembalian = models.ForeignKey(Pengembalian, on_delete=models.CASCADE, related_name='id_pengembalian_denda')
     jml_hari = models.IntegerField()
     tgl_denda = models.DateField()
     jml_denda = models.IntegerField()
@@ -117,5 +117,5 @@ class denda(models.Model):
         return str(self.id_peminjaman)
 
     class Meta:
-        db_table = 'denda'
+        db_table = 'Denda'
 

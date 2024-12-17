@@ -2,56 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function register(){
+function register() {
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState('');
-  const [data, setData] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: ''
-  })
-
-  useEffect(() => {
-    axios.get('http://localhost:8000/api/users/')
-      .then(Response => {
-        setData(Response.data);
-      })
-      .catch(error => {
-        console.error('Error Fetching data:', error);
-      })
-  }, []);
+    nama: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    // Handle registration logic here
+    if (formData.password !== formData.confirmPassword) {
+      alert("Password tidak sama. Coba lagi.");
+      return;
+    }
+
+    e.preventDefault();
     try {
-      // Mengirim data ke API menggunakan Axios
-      const response = await axios.post('http://localhost:8000/api/users/', {
-        email: formData.email,
-        password: formData.password,
-        confirm_password: formData.confirmPassword,
-      });
-
-      alert(response.data.message || 'Registrasi berhasil!');
-      navigate('/login'); // Redirect ke halaman login
+      await axios.post("http://localhost:8000/api/member/", formData);
+      alert("Registrasi berhasil! Silakan login.");
+      navigate("/login");
     } catch (error) {
-      // Tangkap dan tampilkan pesan error
-      if (error.response && error.response.data) {
-        setErrorMessage(error.response.data.detail || 'Gagal Mendaftar. Periksa kembali data Anda.');
-
-      } else {
-        setErrorMessage('Terjadi kesalahan. Silakan coba lagi.');
-      }
+      console.error("Registrasi Gagal:", error);
+      alert("Registrasi gagal. Coba lagi");
     }
   };
 
@@ -65,17 +44,25 @@ function register(){
           </div>
         )}
 
-
-
-
-
-
-
-
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
+            <label htmlFor="nama" className="block text-sm font-medium text-gray-700 mb-1">
+              Nama Pengguna
+            </label>
+            <input
+              type="text"
+              id="nama"
+              name="nama"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#B22222]"
+              value={formData.nama}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email :
+              Email
             </label>
             <input
               type="email"
@@ -90,7 +77,7 @@ function register(){
 
           <div className="mb-4">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Password :
+              Kata Sandi
             </label>
             <input
               type="password"
@@ -105,7 +92,7 @@ function register(){
 
           <div className="mb-6">
             <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-              Konfirmasi Password :
+              Konfirmasi Kata Sandi
             </label>
             <input
               type="password"
@@ -123,9 +110,15 @@ function register(){
             Daftar
           </button>
         </form>
+        <p className="mt-4 text-sm text-center">
+          Sudah punya akun?{' '}
+          <button onClick={() => navigate('/login')} className="text-[#B22222] hover:underline">
+            Masuk
+          </button>
+        </p>
       </div>
     </div>
-    )
+  )
 }
 
 export default register;
