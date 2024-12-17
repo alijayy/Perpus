@@ -19,7 +19,7 @@ function Profile() {
   };
 
   const handleUpdate = () => {
-    console.log('Update profile');
+    console.log('Update');
     // Add your update logic here
   };
 
