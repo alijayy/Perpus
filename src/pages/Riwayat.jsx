@@ -41,7 +41,7 @@ function Riwayat() {
           {/* Left Sidebar */}
           <div className="w-full md:w-64 space-y-6">
             <div className="flex flex-col items-center">
-              <div className="w-32 h-32 rounded-full overflow-hidden mb-4">
+              <div className="bg-white w-32 h-32 rounded-full overflow-hidden mb-8 shadow-lg">
                 <img
                   src="/placeholder.svg?height=128&width=128"
                   className="w-full h-full object-cover"

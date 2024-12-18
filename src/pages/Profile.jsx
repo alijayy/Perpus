@@ -31,10 +31,10 @@ function Profile() {
           {/* Left Sidebar */}
           <div className="w-full md:w-64 space-y-6">
             <div className="flex flex-col items-center">
-              <div className="w-32 h-32 rounded-full overflow-hidden mb-4">
+              <div className="bg-white w-32 h-32 rounded-full overflow-hidden mb-8 shadow-lg">
                 <img
                   src="/placeholder.svg?height=128&width=128"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover "
                 />
               </div>
               <h2 className="text-lg font-semibold">{username}</h2>
@@ -71,7 +71,7 @@ function Profile() {
                   <div className="flex-1">
                     <input
                       type="text"
-                      value={username}
+                      value="-"
                       readOnly
                       className="w-full p-2 bg-white rounded border border-gray-300"
                     />

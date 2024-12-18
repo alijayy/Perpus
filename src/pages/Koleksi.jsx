@@ -22,7 +22,7 @@ function Koleksi () {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-[#F5E6D3] p-6">
+      <div className="min-h-screen bg-[#F5E6D3] p-6 px-16 py-32">
         <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Koleksi Buku
         </h1>
@@ -65,17 +65,8 @@ function Koleksi () {
           </div>
 
           {/* Kolom Buku */}
-          <div className="flex-1 p-4">
-            {/* <div className="mb-4 flex justify-between items-center">
-              <input
-                type="text"
-                placeholder="Cari buku"
-                className="p-2 rounded-md border border-gray-300"
-              />
-              <button className="bg-red-600 text-white p-2 rounded-md">
-                Cari
-              </button>
-            </div> */}
+          <div className="flex-1 p-4 ">
+
             <SearchBar />
 
             <div className="grid grid-cols-3 gap-4">
@@ -86,7 +77,19 @@ function Koleksi () {
                     key={buku.id} // Assuming id is the identifier
                     className="bg-yellow-100 p-4 rounded-md shadow-md"
                   >
-                    <h3 className="font-semibold text-xl">{buku.judul_buku}</h3>
+
+                    {buku.image_url && (
+                      <img
+                      src={buku.image_url}
+                      alt={buku.judul_buku}
+                      className="w-full h-24 md:h-40 lg:h-48 object-cover object-center rounded-md mb-4"
+                    />
+                    )}
+
+
+                    <h3 className="font-semibold text-xl">
+                      {buku.judul_buku}
+                    </h3>
                     <p>Penulis: {buku.penulis}</p>
                     <p>
                       Tahun Terbit: {new Date(buku.tahun_terbit).getFullYear()}

@@ -30,7 +30,7 @@ function Kontak() {
         <>
         {/* Kontak Section */}
         <Navbar />
-        <div className="min-h-screen bg-white pt-24">
+        <div className="min-h-screen bg-[#F5E6D3] pt-24">
       <div className="max-w-6xl mx-auto px-4">
         <h1 className="text-3xl font-bold text-center mb-12">
           Kelompok 8
@@ -39,7 +39,7 @@ function Kontak() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           {teamMembers.map((member, index) => (
             <div key={index} className="flex flex-col items-center">
-              <div className="w-48 h-48 rounded-full overflow-hidden mb-4 grayscale">
+              <div className="bg-white w-48 h-48 rounded-full overflow-hidden mb-4 grayscale shadow-lg">
                 <img
                   src={member.image}
                   alt={member.name}

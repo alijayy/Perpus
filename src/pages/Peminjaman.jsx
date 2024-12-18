@@ -75,7 +75,7 @@ function Peminjaman () {
           <div className="bg-[#F8ECE5] rounded-lg p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex items-center gap-2">
-                <label className="w-24 text-gray-700">NIM :</label>
+                <label className="w-24 text-gray-700">Email :</label>
                 <input
                   type="text"
                   name="nim"

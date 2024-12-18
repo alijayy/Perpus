@@ -28,11 +28,12 @@ return (
     <div className="min-h-[calc(100vh-64px)] bg-[#F5E6D3] pt-36 ">
       <Navbar />
       <div className="max-w-3xl mx-auto mb-36 p-6">
+      <h1 className="text-2xl font-bold text-center mb-6">RESERVASI</h1>
         <form onSubmit={handleSubmit} className="bg-[#F8ECE5] rounded-lg p-6 shadow-sm">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* NIM Field */}
             <div className="flex items-start gap-2">
-              <label className="w-32 text-gray-700 text-sm pt-2">NIM :</label>
+              <label className="w-32 text-gray-700 text-sm pt-2">Email :</label>
               <input
                 type="number"
                 name="nim"

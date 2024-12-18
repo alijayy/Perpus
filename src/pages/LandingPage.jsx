@@ -1,20 +1,32 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/navbar';
 import SearchBar from '@/components/ui/SearchBar';
 import Footer from '@/components/Footer';
 import BookCard from '@/components/ui/book-card';
 
-function home(){
+function home() {
+  const [username, setUsername] = useState('');
   const navigate = useNavigate();
-  return(
+
+  useEffect(() => {
+    const user = localStorage.getItem("username");
+    setUsername(user);
+  }, []);
+
+  return (
     <div className="min-h-[calc(100vh-64px)] bg-[#F5E6D3] pt-4">
       <Navbar />
-      
-      <main className="max-w-7xl mx-auto px-4 py-8 pt-24">
-        <section className="mb-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            Buku jendela ilmu
+
+      <main className="max-w-7xl mx-auto px-12 py-8 pt-24">
+        <section className="mb-16 gap-10">
+          {username && (
+            <h1 className="text-4xl font-bold text-gray-900 mb-2 text-underline">
+              Selamat datang {username} !
+            </h1>
+          )}
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Buku jendela ilmu.
           </h1>
           <p className="text-gray-600 mb-8 max-w-2xl">
             Perpustakaan Digital: Membuka Jendela Dunia, Satu Halaman Sekaligus.
@@ -28,10 +40,10 @@ function home(){
             <h2 className="text-2xl font-semibold text-gray-900">
               Rekomendasi Buku
             </h2>
-            <button className="px-6 py-2 bg-[#B22222] text-white rounded-md hover:bg-[#8B0000] transition-colors">
+            <button onClick={() => navigate('/koleksi')} className="px-6 py-2 bg-[#B22222] text-white rounded-md hover:bg-[#8B0000] transition-colors">
               Lihat Semua
             </button>
-            {/*  px-6 py-2 bg-[#B22222] text-white rounded-md hover:bg-[#8B0000] transition-colors*/ }
+            {/*  px-6 py-2 bg-[#B22222] text-white rounded-md hover:bg-[#8B0000] transition-colors*/}
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {[...Array(6)].map((_, i) => (
