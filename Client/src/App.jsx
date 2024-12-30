@@ -11,8 +11,6 @@ import Koleksi from './pages/Koleksi'
 import Kontak from './pages/Kontak';
 import Profile from './pages/Profile';
 import Riwayat from './pages/Riwayat';
-// import Navbar from './components/navbar'
-// import Footer from './components/Footer'
 import './App.css'
 
 function App() {
@@ -22,11 +20,6 @@ function App() {
     const token = localStorage.getItem("token");
     setIsAuthenticated(!!token);
   }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsAuthenticated(false);
-  }
 
   return (
     <Router>

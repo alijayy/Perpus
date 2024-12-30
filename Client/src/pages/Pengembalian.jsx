@@ -7,47 +7,45 @@ import Footer from '@/components/Footer';
 function Pengembalian() {
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Handle form submission here
     console.log('Form submitted:', formData)
   }
 
   const handleChange = {}
   const formData = {}
 
-  //Sample, harusnya ada dri database
-  const bookData = [
+  const bookList = [
     {
-      kodeBuku: 'A493',
-      judulBuku: 'Tegar',
-      pengarang: 'Youra Tehzib',
-      totalBuku: 1
+      ISBN: 'A493',
+      judul_buku: 'Tegar',
+      penulis: 'Youra Tehzib',
+      jumlah_buku: 1
     },
     {
-      kodeBuku: 'B721',
-      judulBuku: 'Pulang',
-      pengarang: 'Tere Liye',
-      totalBuku: 1
+      ISBN: 'B721',
+      judul_buku: 'Pulang',
+      penulis: 'Tere Liye',
+      jumlah_buku: 1
     },
     {
-      kodeBuku: 'C105',
-      judulBuku: 'Laskar Pelangi',
-      pengarang: 'Andrea Hirata',
-      totalBuku: 2
+      ISBN: 'C105',
+      judul_buku: 'Laskar Pelangi',
+      penulis: 'Andrea Hirata',
+      jumlah_buku: 2
     }
   ]
 
   return (
   <div className="min-h-screen bg-[#F5E6D3] pt-24">
       <Navbar />
-      <div className="max-w-4xl mx-auto p-32"> {/*p-6 */}
+      <div className="max-w-4xl mx-auto p-32"> 
         <h1 className="text-2xl font-bold text-center mb-6">PENGEMBALIAN</h1>
         
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* User Info Section */}
+
           <div className="bg-[#F8ECE5] rounded-lg p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex items-center gap-2">
-                <label className="w-32 text-gray-700">NIM :</label>
+                <label className="w-32 text-gray-700">Email :</label>
                 <input
                   type="text"
                   name="nim"
@@ -82,7 +80,6 @@ function Pengembalian() {
             </div>
           </div>
 
-          {/* Book Data Section */}
           <div className="bg-[#F8ECE5] rounded-lg overflow-hidden">
             <div className="bg-[#E8B69F] px-4 py-2 text-center font-semibold">
               DATA BUKU
@@ -93,17 +90,17 @@ function Pengembalian() {
                   <tr className="bg-[#E8D5D5]">
                     <th className="py-2 px-4 text-left">Kode Buku</th>
                     <th className="py-2 px-4 text-left">Judul Buku</th>
-                    <th className="py-2 px-4 text-left">Pengarang</th>
+                    <th className="py-2 px-4 text-left">penulis</th>
                     <th className="py-2 px-4 text-left">Total Buku</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {bookData.map((book, index) => (
+                  {bookList.map((book, index) => (
                     <tr key={index} className="border-b border-gray-200">
-                      <td className="py-2 px-4">{book.kodeBuku}</td>
-                      <td className="py-2 px-4">{book.judulBuku}</td>
-                      <td className="py-2 px-4">{book.pengarang}</td>
-                      <td className="py-2 px-4">{book.totalBuku}</td>
+                      <td className="py-2 px-4">{book.ISBN}</td>
+                      <td className="py-2 px-4">{book.judul_buku}</td>
+                      <td className="py-2 px-4">{book.penulis}</td>
+                      <td className="py-2 px-4">{book.jumlah_buku}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -111,7 +108,6 @@ function Pengembalian() {
             </div>
           </div>
 
-          {/* Dates Section */}
           <div className="bg-[#F8ECE5] rounded-lg p-6">
             <div className="flex flex-wrap gap-4">
               <div className="flex items-center gap-2">
@@ -139,7 +135,6 @@ function Pengembalian() {
             </div>
           </div>
 
-          {/* Submit Button */}
           <div className="flex justify-end">
             <button
               type="submit"

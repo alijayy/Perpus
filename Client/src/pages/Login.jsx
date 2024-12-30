@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import Navbar from '@/components/navbar';
 
 function login({ setIsAuthenticated }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
+  const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,21 +27,28 @@ function login({ setIsAuthenticated }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      // Request ke server
-      const Response = await axios.post("http://localhost:8000/api/login/", { //axios.post untuk mengirim data ke endpoint API  
+      const Response = await axios.post("http://localhost:8000/api/login/", {
         username,
         password,
       })
-      localStorage.setItem("token", Response.data.token); // Simpan Token
-      localStorage.setItem("username", Response.data.nama); // Simpan Nama Pengguna
+      MySwal.fire({
+        title: 'Login Berhasil!',
+        text: '',
+        icon: 'success',
+      }).then(() => {
+        localStorage.setItem("token", Response.data.token);
+        localStorage.setItem("username", Response.data.nama);
+        setIsAuthenticated(true);
 
-      setIsAuthenticated(true);
-      alert("Login Berhasil");
-
-      navigate('/'); // Redirect ke Landing Page
+        navigate('/');
+      });
     } catch (error) {
       console.error("Login Gagal:", error);
-      alert("Login gagal. Coba lagi");
+      MySwal.fire({
+        title: 'Error!',
+        text: 'Login Gagal. Coba lagi.',
+        icon: 'error',
+      });
     }
   };
 
@@ -56,6 +66,7 @@ function login({ setIsAuthenticated }) {
             <input
               type="text"
               id="nama"
+              placeholder="Masukkan nama pengguna"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#B22222]"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -70,6 +81,7 @@ function login({ setIsAuthenticated }) {
             <input
               type="password"
               id="password"
+              placeholder="Masukkan kata sandi"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#B22222]"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -95,7 +107,6 @@ function login({ setIsAuthenticated }) {
             </a>
           </div>
 
-          {/* onClick={() => navigate('/')} */}
           <button type="submit" className="w-full bg-[#B22222] text-white py-2 px-4 rounded-md hover:bg-[#8B0000] focus:outline-none focus:ring-2 focus:ring-[#B22222] focus:ring-opacity-50">
             Masuk
           </button>

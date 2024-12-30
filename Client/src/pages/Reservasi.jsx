@@ -3,7 +3,7 @@ import Navbar from '@/components/navbar'
 import Footer from '@/components/Footer'
 function Reservasi() {
 const [formData, setFormData] = useState({
-      nim: '',
+      email: '',
       nama: '',
       buku: '',
       catatan: '',
@@ -20,7 +20,6 @@ const [formData, setFormData] = useState({
 
     const handleSubmit = (e) => {
       e.preventDefault()
-      // Handle form submission here
       console.log('Form submitted:', formData)
     }
 
@@ -28,22 +27,22 @@ return (
     <div className="min-h-[calc(100vh-64px)] bg-[#F5E6D3] pt-36 ">
       <Navbar />
       <div className="max-w-3xl mx-auto mb-36 p-6">
+      <h1 className="text-2xl font-bold text-center mb-6">RESERVASI</h1>
         <form onSubmit={handleSubmit} className="bg-[#F8ECE5] rounded-lg p-6 shadow-sm">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* NIM Field */}
             <div className="flex items-start gap-2">
-              <label className="w-32 text-gray-700 text-sm pt-2">NIM :</label>
+              <label className="w-32 text-gray-700 text-sm pt-2">Email :</label>
               <input
-                type="number"
-                name="nim"
-                value={formData.nim}
+                type="email"
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
                 className="flex-1 p-2 rounded border border-gray-300 focus:outline-none focus:border-[#B22222]"
                 required
               />
             </div>
 
-            {/* Nama Field */}
             <div className="flex items-start gap-2">
               <label className="w-32 text-gray-700 text-sm pt-2">Nama :</label>
               <input
@@ -57,7 +56,6 @@ return (
             </div>
           </div>
 
-        {/* Buku Field */}
         <div className="flex items-start gap-2 mt-6">
             <label className="w-32 text-gray-700 text-sm pt-2">
             Buku yang ingin<br />di pinjam :
@@ -72,7 +70,6 @@ return (
             />
         </div>
 
-        {/* Catatan Field */}
         <div className="flex items-start gap-2 mt-6">
             <label className="w-32 text-gray-700 text-sm pt-2">Catatan :</label>
             <textarea
@@ -84,14 +81,13 @@ return (
             />
         </div>
 
-          {/* Tanggal Pengambilan Field */}
           <div className="flex items-start gap-2 mt-6">
             <label className="w-32 text-gray-700 text-sm pt-2">
               Tanggal<br />Pengambilan :
             </label>
             <input
               type="date"
-               name="tanggalPengambilan"
+              name="tanggalPengambilan"
               value={formData.tanggalPengambilan}
               onChange={handleChange}
               className="flex-1 p-2 rounded border border-gray-300 focus:outline-none focus:border-[#B22222]"
@@ -99,7 +95,6 @@ return (
             />
           </div>
 
-          {/* Submit Button */}
           <div className="flex justify-end mt-6">
             <button
                 type="submit"

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 function register() {
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState("");
+  const MySwal = withReactContent(Swal);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -18,19 +20,33 @@ function register() {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
+
     if (formData.password !== formData.confirmPassword) {
-      alert("Password tidak sama. Coba lagi.");
+      MySwal.fire({
+        title: 'Error!',
+        text: 'Password tidak sama. Coba lagi.',
+        icon: 'error',
+      });
       return;
     }
 
-    e.preventDefault();
     try {
       await axios.post("http://localhost:8000/api/member/", formData);
-      alert("Registrasi berhasil! Silakan login.");
-      navigate("/login");
+      MySwal.fire({
+        title: 'Registrasi Berhasil!',
+        text: 'Silakan login.',
+        icon: 'success',
+      }).then(() => {
+        navigate('/login');
+      });
     } catch (error) {
       console.error("Registrasi Gagal:", error);
-      alert("Registrasi gagal. Coba lagi");
+      MySwal.fire({
+        title: 'Error!',
+        text: 'Registrasi gagal. Coba lagi.',
+        icon: 'error',
+      });
     }
   };
 
@@ -38,12 +54,6 @@ function register() {
     <div className="min-h-screen flex items-center justify-center bg-[#F5E6D3]">
       <div className="bg-white p-8 rounded-lg shadow-md w-80">
         <h2 className="text-2xl font-bold text-[#B22222] mb-6 text-center">Daftar</h2>
-        {errorMessage && (
-          <div className='mb-4 text-red-500 text-sm text-center'>
-            {errorMessage}
-          </div>
-        )}
-
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
@@ -53,6 +63,7 @@ function register() {
               type="text"
               id="username"
               name="username"
+              placeholder="Masukkan username"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#B22222]"
               value={formData.username}
               onChange={handleChange}
@@ -68,6 +79,7 @@ function register() {
               type="email"
               id="email"
               name="email"
+              placeholder="Masukkan email"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#B22222]"
               value={formData.email}
               onChange={handleChange}
@@ -83,6 +95,7 @@ function register() {
               type="password"
               id="password"
               name="password"
+              placeholder="Masukkan kata sandi"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#B22222]"
               value={formData.password}
               onChange={handleChange}
@@ -98,6 +111,7 @@ function register() {
               type="password"
               id="confirmPassword"
               name="confirmPassword"
+              placeholder="Konfirmasi kata sandi"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#B22222]"
               value={formData.confirmPassword}
               onChange={handleChange}
@@ -105,11 +119,11 @@ function register() {
             />
           </div>
 
-          {/*onClick={() => navigate('/login')}*/}
           <button type="submit" className="w-full bg-[#B22222] text-white py-2 px-4 rounded-md hover:bg-[#8B0000] focus:outline-none focus:ring-2 focus:ring-[#B22222] focus:ring-opacity-50">
             Daftar
           </button>
         </form>
+
         <p className="mt-4 text-sm text-center">
           Sudah punya akun?{' '}
           <button onClick={() => navigate('/login')} className="text-[#B22222] hover:underline">

@@ -40,7 +40,7 @@ class Buku(models.Model):
     judul_buku = models.CharField(max_length=100)
     jumlah_buku = models.IntegerField()
     status_buku = models.CharField(max_length=30, choices=status_buku) 
-    nama_kategori = models.CharField(max_length=50) #choices
+    nama_kategori = models.CharField(max_length=50) 
     image_url = models.URLField(max_length=500, blank=True, null=True)
 
     def __str__(self):
