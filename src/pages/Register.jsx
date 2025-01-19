@@ -33,10 +33,10 @@ function register() {
 
     try {
       await axios.post("http://localhost:8000/api/member/", formData);
-        MySwal.fire({
-          title: 'Registrasi Berhasil!',
-          text: 'Silakan login.',
-          icon: 'success',
+      MySwal.fire({
+        title: 'Registrasi Berhasil!',
+        text: 'Silakan login.',
+        icon: 'success',
       }).then(() => {
         navigate('/login');
       });
@@ -63,6 +63,7 @@ function register() {
               type="text"
               id="username"
               name="username"
+              placeholder="Masukkan username"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#B22222]"
               value={formData.username}
               onChange={handleChange}
@@ -78,6 +79,7 @@ function register() {
               type="email"
               id="email"
               name="email"
+              placeholder="Masukkan email"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#B22222]"
               value={formData.email}
               onChange={handleChange}
@@ -93,6 +95,7 @@ function register() {
               type="password"
               id="password"
               name="password"
+              placeholder="Masukkan kata sandi"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#B22222]"
               value={formData.password}
               onChange={handleChange}
@@ -108,6 +111,7 @@ function register() {
               type="password"
               id="confirmPassword"
               name="confirmPassword"
+              placeholder="Konfirmasi kata sandi"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#B22222]"
               value={formData.confirmPassword}
               onChange={handleChange}
@@ -115,12 +119,11 @@ function register() {
             />
           </div>
 
-          {/*onClick={() => navigate('/login')}*/}
           <button type="submit" className="w-full bg-[#B22222] text-white py-2 px-4 rounded-md hover:bg-[#8B0000] focus:outline-none focus:ring-2 focus:ring-[#B22222] focus:ring-opacity-50">
             Daftar
           </button>
         </form>
-        
+
         <p className="mt-4 text-sm text-center">
           Sudah punya akun?{' '}
           <button onClick={() => navigate('/login')} className="text-[#B22222] hover:underline">

@@ -12,25 +12,20 @@ function Riwayat() {
     setUsername(user);
   }, []);
 
-  const borrowingHistory = [
+  const riwayatpinjam = [
     {
-      judulBuku: "React JS Fundamentals",
-      tanggalPeminjaman: "2024-01-15",
-      tanggalPengembalian: "2024-01-22",
+      judul_buku: "React JS Fundamentals",
+      tgl_peminjaman: "2024-01-15",
+      tgl_pengembalian: "2024-01-22",
       status: "Dikembalikan",
       denda: "Rp0"
     }
   ];
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Menghapus token
-    localStorage.removeItem('username'); // Menghapus username
+    localStorage.removeItem('token'); 
+    localStorage.removeItem('username'); 
     navigate('/login');
-  };
-
-  const handleUpdate = () => {
-    console.log('Update profile');
-    // Logika update profil bisa ditambahkan di sini
   };
 
   return (
@@ -38,12 +33,12 @@ function Riwayat() {
       <Navbar />
       <div className="max-w-6xl mx-auto p-6">
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Left Sidebar */}
           <div className="w-full md:w-64 space-y-6">
             <div className="flex flex-col items-center">
               <div className="bg-white w-32 h-32 rounded-full overflow-hidden mb-8 shadow-lg">
                 <img
                   src="/placeholder.svg?height=128&width=128"
+                  alt='profile-pic'
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -66,12 +61,11 @@ function Riwayat() {
                 onClick={handleLogout}
                 className="text-left text-gray-600 hover:text-[#B22222]"
               >
-                log out
+                Log out
               </button>
             </nav>
           </div>
 
-          {/* Main Content */}
           <div className="flex-1">
             <h1 className="text-2xl font-bold  text-center mb-6">Riwayat peminjaman</h1>
 
@@ -88,10 +82,10 @@ function Riwayat() {
                     </tr>
                   </thead>
                   <tbody>
-                    {borrowingHistory.map((item, index) => (
+                    {riwayatpinjam.map((item, index) => (
                       <tr key={index} className="border-b border-gray-200">
-                        <td className="py-2 px-4">{item.judulBuku}</td>
-                        <td className="py-2 px-4">{item.tanggalPeminjaman}</td>
+                        <td className="py-2 px-4">{item.judul_buku}</td>
+                        <td className="py-2 px-4">{item.tgl_peminjaman}</td>
                         <td className="py-2 px-4">{item.tanggalPengembalian}</td>
                         <td className="py-2 px-4">{item.status}</td>
                         <td className="py-2 px-4">{item.denda}</td>
@@ -104,7 +98,7 @@ function Riwayat() {
               <div className="mt-4 pt-4 border-t border-gray-200">
                 <div className="flex justify-between items-center">
                   <span className="font-medium">Total Buku</span>
-                  <span>{borrowingHistory.length}</span>
+                  <span>{riwayatpinjam.length}</span>
                 </div>
               </div>
             </div>

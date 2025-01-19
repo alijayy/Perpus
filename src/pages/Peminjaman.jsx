@@ -3,19 +3,19 @@ import { useState } from 'react'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 
-function Peminjaman () {
+function Peminjaman() {
   const [formData, setFormData] = useState({
-    nim: '',
+    email: '',
     nama: '',
     noTransaksi: '',
-    tanggalPinjam: '',
-    tanggalKembali: ''
+    tgl_peminjaman: '',
+    tgl_pengembalian: ''
   })
 
   const [searchData, setSearchData] = useState({
-    kodeBuku: '',
-    judulBuku: '',
-    pengarang: ''
+    nomor_isbn: '',
+    judul_buku: '',
+    penulis: ''
   })
 
   const [books, setBooks] = useState([
@@ -28,12 +28,8 @@ function Peminjaman () {
   ])
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }))
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSearchChange = (e) => {
     const { name, value } = e.target
@@ -66,20 +62,19 @@ function Peminjaman () {
 
   return (
     <div className="min-h-screen bg-[#F5E6D3]">
-    <Navbar />
+      <Navbar />
       <div className="max-w-4xl mx-auto p-6 pt-24">
         <h1 className="text-2xl font-bold text-center mb-6">PEMINJAMAN</h1>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* User Info Section */}
           <div className="bg-[#F8ECE5] rounded-lg p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex items-center gap-2">
                 <label className="w-24 text-gray-700">Email :</label>
                 <input
-                  type="text"
-                  name="nim"
-                  value={formData.nim}
+                  type="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleChange}
                   className="flex-1 p-2 rounded border border-gray-300 focus:outline-none focus:border-[#B22222]"
                   required
@@ -132,13 +127,12 @@ function Peminjaman () {
             </div>
           </div>
 
-          {/* Book Data Section */}
           <div className="bg-[#F8ECE5] rounded-lg overflow-hidden">
             <div className="bg-[#E8B69F] px-4 py-2 text-center font-semibold">
               DATA BUKU
             </div>
             <div className="p-4">
-              {/* Search Fields */}
+
               <div className="flex gap-2 mb-4">
                 <div className="flex-1 flex items-center gap-2">
                   <label className="whitespace-nowrap text-gray-700">Kode Buku:</label>
@@ -189,7 +183,6 @@ function Peminjaman () {
                 </button>
               </div>
 
-              {/* Books Table */}
               <table className="w-full">
                 <thead>
                   <tr className="bg-[#E8D5D5]">
@@ -225,7 +218,6 @@ function Peminjaman () {
             </div>
           </div>
 
-          {/* Submit Button */}
           <div className="flex justify-end">
             <button
               type="submit"
